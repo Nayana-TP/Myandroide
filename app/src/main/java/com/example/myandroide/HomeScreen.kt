@@ -1,0 +1,32 @@
+package com.example.myandroide
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun HomeScreen(onLogoutClick: () -> Unit, onPremiumClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Welcome!")
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = onPremiumClick) {
+            Text("Premium")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = onLogoutClick) {
+            Text("Logout")
+        }
+    }
+}
