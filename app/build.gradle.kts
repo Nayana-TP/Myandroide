@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,7 +7,20 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+val keystorePropertiesFile = rootProject.file("app/keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(keystorePropertiesFile.inputStream())
+
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties.getProperty("storeFile"))
+            storePassword = keystoreProperties.getProperty("storePassword")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+        }
+    }
+
     namespace = "com.example.myandroide"
     compileSdk = 36
 
@@ -26,6 +41,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -56,6 +72,7 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.android.billingclient:billing-ktx:7.0.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.fragment.ktx)
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:5.11.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
